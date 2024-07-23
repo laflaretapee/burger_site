@@ -1,65 +1,44 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Сканер QR-кодов</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        #video {
-            border: 2px solid #333;
-            border-radius: 10px;
-            width: 400px; /* Увеличенный размер */
-            height: 400px; /* Увеличенный размер */
-        }
-        #message {
-            margin-top: 20px;
-            font-size: 18px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Document</title>
 </head>
 <body>
-    <div>
-        <video id="video"></video>
-        <div id="message">Инициализация камеры...</div>
+  <div class="container">
+    <div class="inner">
+      <div class="item">
+        <img src="free-icon-burger-5462470.png" alt="" class="img">
+        <button class="btn" id="btn1">Add</button>
+      </div>
+      <div class="item">
+        <img src="free-icon-burger-5462470.png" alt="" class="img">
+        <button class="btn" id="btn2">Add</button>
+      </div>
+      <div class="item">
+        <img src="free-icon-burger-5462470.png" alt="" class="img">
+        <button class="btn" id="btn3">Add</button>
+      </div>
+      <div class="item">
+        <img src="free-icon-burger-5462470.png" alt="" class="img">
+        <button class="btn" id="btn4">Add</button>
+      </div>
+      <div class="item">
+        <img src="free-icon-burger-5462470.png" alt="" class="img">
+        <button class="btn" id="btn5">Add</button>
+      </div>
+      <div class="item">
+        <img src="free-icon-burger-5462470.png" alt="" class="img">
+        <button class="btn" id="btn6">Add</button>
+      </div>
     </div>
+  </div>
+  <div class="usercard" id="usercard">
 
-    <script src="https://unpkg.com/qr-scanner@1.2.0/qr-scanner.min.js"></script>
-    <script>
-        const video = document.getElementById('video');
-        const message = document.getElementById('message');
-
-        async function startScanner() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-                video.srcObject = stream;
-                video.play();
-                message.textContent = 'Поиск QR-кодов...';
-
-                const qrScanner = new QrScanner(video, result => {
-                    console.log('Результат QR-кода:', result);
-                    message.textContent = `Результат QR-кода: ${result}`;
-                    qrScanner.stop();
-                    stream.getTracks().forEach(track => track.stop());
-                });
-
-                qrScanner.start();
-            } catch (error) {
-                console.error('Ошибка доступа к камере:', error);
-                message.textContent = 'Ошибка доступа к камере. Пожалуйста, проверьте разрешения.';
-            }
-        }
-
-        startScanner();
-    </script>
+  </div>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+	<script src="app.js"></script>
 </body>
 </html>
