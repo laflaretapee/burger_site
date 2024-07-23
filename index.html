@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сканер QR-кодов</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #video {
+            border: 2px solid #333;
+            border-radius: 10px;
+            width: 400px; /* Увеличенный размер */
+            height: 400px; /* Увеличенный размер */
+        }
+        #message {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <video id="video"></video>
+        <div id="message">Инициализация камеры...</div>
+    </div>
+
+    <script src="https://unpkg.com/qr-scanner@1.2.0/qr-scanner.min.js"></script>
+    <script>
+        const video = document.getElementById('video');
+        const message = document.getElementById('message');
+
+        async function startScanner() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+                video.srcObject = stream;
+                video.play();
+                message.textContent = 'Поиск QR-кодов...';
+
+                const qrScanner = new QrScanner(video, result => {
+                    console.log('Результат QR-кода:', result);
+                    message.textContent = `Результат QR-кода: ${result}`;
+                    qrScanner.stop();
+                    stream.getTracks().forEach(track => track.stop());
+                });
+
+                qrScanner.start();
+            } catch (error) {
+                console.error('Ошибка доступа к камере:', error);
+                message.textContent = 'Ошибка доступа к камере. Пожалуйста, проверьте разрешения.';
+            }
+        }
+
+        startScanner();
+    </script>
+</body>
+</html>
