@@ -7,34 +7,29 @@ tg.MainButton.color = '#2cab37';
 
 let items = [];
 
-function toggleItem(btn,itemId, price){
-  let item = items.find(i => i.id === itemId);
-  if (!item){
-    let newItem = {id: itemId, price: price};
-    items.push(newItem);
+function toggleItem(btn, itemId, price) {
+  let itemIndex = items.findIndex(i => i.id === itemId);
+  if (itemIndex === -1) {
+    // Добавление товара в корзину
+    items.push({ id: itemId, price: price });
     btn.classList.add('added-to-cart');
     btn.innerText = "Удалить из корзины";
-    let totalPrice = items.reduce((total,item) => total + item.price, 0);
-    if (totalPrice > 0){
-      tg.MainButton.setText('Общая цена товара:', {totalPrice});
-      if (!tg.MainButton.isVisible){
-        tg.MainButton.show();
-      }
-    }else {
-      let index = items.indexOf(item);
-      items.splice(index,1);
-      btn.classList.remove('added-to-cart');
-      btn.innerText = "Добавить в корзину";
-      let totalPrice = items.reduce((total,item)=> total + item.price,0);
-      if (totalPrice > 0){
-        tg.MainButton.setText('Общая цена товара:',{totalPrice});
-        if (!tg.MainButton.isVisible){
-          tg.MainButton.show()
-        }
-      }else {
-        tg.MainButton.hide();
-      }
+  } else {
+    // Удаление товара из корзины
+    items.splice(itemIndex, 1);
+    btn.classList.remove('added-to-cart');
+    btn.innerText = "Добавить в корзину";
+  }
+
+  // Обновление общей стоимости и состояния главной кнопки
+  let totalPrice = items.reduce((total, item) => total + item.price, 0);
+  if (totalPrice > 0) {
+    tg.MainButton.setText(`Общая цена товара: ${totalPrice}`);
+    if (!tg.MainButton.isVisible) {
+      tg.MainButton.show();
     }
+  } else {
+    tg.MainButton.hide();
   }
 }
 
